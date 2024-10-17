@@ -1,0 +1,19 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+#buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* 4x4のグリッド */
+    gap: 5px;  /* ボタン間のスペース */
+    margin-top: 20px;
+    max-width: 450px; /* グリッドの幅を固定 */
+    margin: 0 auto; /* 中央揃え */
+}
+
+img {
+    width: 100px;  /* ボタンの画像サイズ */
+    height: 100px;
+    cursor: pointer;
+}

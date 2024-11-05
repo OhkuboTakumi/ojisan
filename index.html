@@ -53,4 +53,67 @@
     <div id="remainingCount"></div>
     <button id="restart">再スタート</button>
 </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttonsContainer = document.getElementById('buttons');
+            const resultText = document.getElementById('result');
+            const remainingCountText = document.getElementById('remainingCount');
+            const restartButton = document.getElementById('restart');
+
+            let totalChoices = 16;
+            let gameOverChoice = Math.floor(Math.random() * totalChoices);
+            let remainingChoices = Array.from({ length: totalChoices }, (_, i) => i);
+
+            const images = ['ojisan.jpg', 'ojisan2.jpg', 'ojisan3.jpg'];
+
+            // ボタン生成
+            function createButtons() {
+                buttonsContainer.innerHTML = '';
+                remainingChoices.forEach((choice) => {
+                    const imgButton = document.createElement('img');
+                    imgButton.src = getRandomImage();
+                    imgButton.alt = 'おじさん画像';
+                    imgButton.addEventListener('click', () => handleChoice(imgButton, choice));
+                    buttonsContainer.appendChild(imgButton);
+                });
+                updateRemainingCount();
+            }
+
+            // ランダムなおじさん画像取得
+            function getRandomImage() {
+                return images[Math.floor(Math.random() * images.length)];
+            }
+
+            // 残り数更新
+            function updateRemainingCount() {
+                remainingCountText.innerText = `残りのおじさんの数: ${remainingChoices.length}`;
+            }
+
+            // 選択時処理
+            function handleChoice(imgButton, choice) {
+                if (choice === gameOverChoice) {
+                    resultText.innerText = 'ゲームオーバー！';
+                    buttonsContainer.innerHTML = '';  // ボタン削除
+                    remainingCountText.innerText = '';  // 残り数非表示
+                    restartButton.style.display = 'inline-block';  // 再スタート表示
+                } else {
+                    resultText.innerText = 'セーフ！';
+                    remainingChoices = remainingChoices.filter(c => c !== choice);
+                    imgButton.style.visibility = 'hidden';  // 選択した画像非表示
+                    updateRemainingCount();
+                }
+            }
+
+            // ゲーム再スタート
+            restartButton.addEventListener('click', () => {
+                gameOverChoice = Math.floor(Math.random() * totalChoices);
+                remainingChoices = Array.from({ length: totalChoices }, (_, i) => i);
+                resultText.innerText = '';
+                restartButton.style.display = 'none';
+                createButtons();
+            });
+
+            createButtons();
+        });
+    </script>
 </html>
